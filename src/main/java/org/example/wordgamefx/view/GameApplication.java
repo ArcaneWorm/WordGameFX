@@ -16,6 +16,7 @@ import java.io.IOException;
 public class GameApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        //setup UI
         FXMLLoader fxmlLoader = new FXMLLoader(GameApplication.class.getResource("wordgame.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 570, 654);
         stage.setTitle("HalloWordle");
