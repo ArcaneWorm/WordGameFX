@@ -1,3 +1,9 @@
+/**
+ * GameApplication.java
+ *
+ * Acts as the bridge between the logic and the UI -- launches javaFX.
+ */
+
 package org.example.wordgamefx.view;
 
 import javafx.application.Application;
