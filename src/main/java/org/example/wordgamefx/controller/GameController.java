@@ -16,10 +16,22 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import org.example.wordgamefx.model.GameLogic;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.List;
+import java.io.InputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 
 public class GameController
 {
+    //will store all valid 5 letter guess words
+    private Set<String> dictionary;
+
     //input fields
     @FXML
     private TextField inputBox;
@@ -62,11 +74,37 @@ public class GameController
         //initialize game with word
         //later add way to randomize word
         logic = new GameLogic();
+
+        //load dictionary
+        try
+        {
+            InputStream in = getClass().getResourceAsStream("/wordle-allowed-guesses-updated.txt");
+            dictionary = new HashSet<>();
+            new BufferedReader(new InputStreamReader(in))
+                    .lines()
+                    .map(String::trim)
+                    .filter(w -> w.length() == 5)
+                    .forEach(dictionary::add);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            dictionary = new HashSet<>();
+        }
     }
     @FXML
     private void handleConfirmedInput(ActionEvent e)
     {
         String input = inputBox.getText().toLowerCase();
+
+        //before processing the user's guess, make sure it's in the dictionary
+        if(!dictionary.contains(input))
+        {
+            //show alert if invalid word
+            Alert alert =  new Alert(Alert.AlertType.ERROR, "Not a valid word!");
+            alert.showAndWait();
+            return;
+        }
 
         //add method to validate guess
         //if invalid guess then have user re-enter guess

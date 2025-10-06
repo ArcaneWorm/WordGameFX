@@ -52,6 +52,11 @@ public class GameLogic
     private List<Character> greenLetters;
 
     public GameLogic(){
+        /*
+        If you add a word to this list, verify that your word is included in the dictionary validation text file
+        in the /src/main/resources folder.
+        If it is not included, please add it to the text file in addition to this list.
+        */
         answerWords = new ArrayList<>(Arrays.asList("candy", "witch", "ghoul", "mummy", "demon", "spook",
                 "ghost", "eerie", "haunt", "crypt", "scare", "scary", "bones", "skull", "fangs", "blood",
                 "treat", "trick", "grave"));
@@ -173,9 +178,8 @@ public class GameLogic
     CODE NEXT:
     - logic for winning/loosing -- use an int guessCounter
     - input validation:
-        - is guessWord in the dictionary? (should only use letters a-z, no special characters or numbers)
+        - if you don't win, tells you what the word was
         - is guessWord the correct # of characters (5)?
-        - make it such that there's a randomly selected answer word
         - replay button (if there's time)
         - make it such that you can click the letters on the UI keyboard (if we want to try hard for no reason)
         - some sort of celebration when you win maybe
