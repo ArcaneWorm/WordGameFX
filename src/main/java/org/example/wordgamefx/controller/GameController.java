@@ -61,7 +61,7 @@ public class GameController
         guessRows = new HBox[] {guess1, guess2, guess3, guess4, guess5, guess6};
         //initialize game with word
         //later add way to randomize word
-        logic = new GameLogic("candy");
+        logic = new GameLogic();
     }
     @FXML
     private void handleConfirmedInput(ActionEvent e)
@@ -77,7 +77,7 @@ public class GameController
         boolean[] yellow = logic.getYellow();
         boolean[] green = logic.getGreen();
 
-        logic.guessAndTestComparison(input);
+        logic.guessAndAnswerComparison(input);
 
         //update UI
         for(int i = 0; i < input.length(); i++){

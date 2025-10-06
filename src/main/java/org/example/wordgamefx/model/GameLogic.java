@@ -16,80 +16,71 @@ package org.example.wordgamefx.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+import java.util.*;
 
 public class GameLogic
 {
-    private final String testWord;
-    /*
-    Other words:
-    - candy
-    - witch
-    - ghoul
-    - mummy
-    - demon
-    - spook
-    - ghost
-    - eerie
-    - haunt
-    - crypt
-    - scare
-    - scary
-    - bones
-    - skull
-    - fangs
-    - blood
-    - treat
-    - trick
-    - grave
-     */
+
+    List<String> answerWords; //list of potential answer words, to be chosen randomly
+    Random random; //used to select a random word from the list of answer words
+    String answerWord;
 
     //array to keep track of each character in the answer string
-    private Character[] testWordArray;
+    private Character[] answerWordArray;
 
     //array to keep track of each character in the user-inputted guess string
     private Character[] guessWordArray;
 
-    //arrays to keep track of common characters and common character placements for testWordArray and guessWordArray
-    //true when a character in guessWordArray does not exist in testWordArray
+    //arrays to keep track of which characters and character placements answerWordArray has in common with guessWordArray
+    //lists to store the letters from guessWordArray in the appropriate category (gray, yellow, or green)
+    //gray is true when a character in guessWordArray does not exist in answerWordArray
     private boolean[] gray;
     private List<Character> grayLetters;
-    /* true when a character in guessWordArray exists in testWordArray, but at a different index
+    /* yellow is true when a character in guessWordArray exists in answerWordArray, but at a different index
 
        Additional condition: the combined number of yellow and green instances of a letter must not exceed
-       the number of times that character appears in testWordArray. For example:
-       testWord = candy
+       the number of times that character appears in answerWordArray. For example:
+       answerWord = candy
        guessWord == manta
        The first "a" in manta should be green. The second "a" in manta should be grey, NOT yellow.
     */
     private boolean[] yellow;
     private List<Character> yellowLetters;
-    //true when a character in guessWordArray exists in testWordArray, and is at the same index
+    //green is true when a character in guessWordArray exists in answerWordArray, and is at the same index
     private boolean[] green;
     private List<Character> greenLetters;
 
-    public GameLogic(String testWord){
-        this.testWord = testWord.toLowerCase();
-        this.testWordArray = new Character[testWord.length()];
-        this.guessWordArray = new Character[testWord.length()];
+    public GameLogic(){
+        answerWords = new ArrayList<>(Arrays.asList("candy", "witch", "ghoul", "mummy", "demon", "spook",
+                "ghost", "eerie", "haunt", "crypt", "scare", "scary", "bones", "skull", "fangs", "blood",
+                "treat", "trick", "grave"));
+        random = new Random();
+        answerWord = answerWords.get(random.nextInt(answerWords.size()));
+        this.answerWordArray = new Character[answerWord.length()];
+        this.guessWordArray = new Character[answerWord.length()];
 
-        this.gray = new boolean[testWord.length()];
-        this.yellow = new boolean[testWord.length()];
-        this.green = new boolean[testWord.length()];
+        this.gray = new boolean[answerWord.length()];
+        this.yellow = new boolean[answerWord.length()];
+        this.green = new boolean[answerWord.length()];
 
         this.grayLetters = new ArrayList<Character>();
         this.yellowLetters = new ArrayList<Character>();
         this.greenLetters = new ArrayList<Character>();
 
-        testWordArray = getTestWordArray(testWord);
+        answerWordArray = getAnswerWordArray(answerWord);
+
+
+
     }
-    //method to fill the testWordArray with each character in testWord
-    public Character[] getTestWordArray(String testWord) {
-        Character[] testWordArr = new Character[testWord.length()];
-        for (int i = 0; i < testWord.length(); i++)
+    //method to fill the answerWordArray with each character in answerWord
+    public Character[] getAnswerWordArray(String answerWord) {
+        Character[] answerWordArr = new Character[answerWord.length()];
+        for (int i = 0; i < answerWord.length(); i++)
         {
-            testWordArr[i] = testWord.charAt(i);
+            answerWordArr[i] = answerWord.charAt(i);
         }
-        return testWordArr;
+        return answerWordArr;
     }
 
     //method to fill the guessWordArray with each character in guessWord
@@ -102,57 +93,57 @@ public class GameLogic
         return guessWordArr;
     }
 
-    /** Compare testWordArray and guessWordArray to fill the arrays grey, yellow, and green appropriately
+    /** Compare answerWordArray and guessWordArray to fill the arrays grey, yellow, and green appropriately
      *
-     *      - gray is true when a character in guessWordArray does not exist in testWordArray
+     *      - gray is true when a character in guessWordArray does not exist in answerWordArray
      *
-     *      - yellow is true when a character in guessWordArray exists in testWordArray, but at a different index
+     *      - yellow is true when a character in guessWordArray exists in answerWordArray, but at a different index
      *          Additional condition: the combined number of yellow and green instances of a letter must not exceed
-     *          the number of times that character appears in testWordArray. For example:
-     *          testWord = candy
+     *          the number of times that character appears in answerWordArray. For example:
+     *          answerWord = candy
      *          guessWord == manta
      *          The first "a" in manta should be green. The second "a" in manta should be grey, NOT yellow.
-     *          The array usedCharacters is used to keep track of which characters in testWordArray have
+     *          The array usedCharacters is used to keep track of which characters in answerWordArray have
      *          already been used to ensure the correct number of characters are marked yellow.
      *
-     *      - green is true when a character in guessWordArray exists in testWordArray, and is at the same index
+     *      - green is true when a character in guessWordArray exists in answerWordArray, and is at the same index
      * */
-    public void guessAndTestComparison(String guessWord)
+    public void guessAndAnswerComparison(String guessWord)
     {
         guessWord = guessWord.toLowerCase();
         guessWordArray = getGuessWordArray(guessWord);
 
         //initialize all indices of grey to true, and all the indices of yellow and green to false
-        for (int i = 0; i < testWordArray.length; i++)
+        for (int i = 0; i < answerWordArray.length; i++)
         {
             gray[i] = true;
             yellow[i] = false;
             green[i] = false;
         }
 
-        //array to track which positions in testWordArray are already used
-        boolean[] usedCharacters = new boolean[testWordArray.length];
+        //array to track which positions in answerWordArray are already used
+        boolean[] usedCharacters = new boolean[answerWordArray.length];
 
-        //first pass: mark applicable characters from testWordArray as green
-        for (int i = 0; i < testWordArray.length; i++)
+        //first pass: mark applicable characters from answerWordArray as green
+        for (int i = 0; i < answerWordArray.length; i++)
         {
-            if (testWordArray[i].equals(guessWordArray[i]))
+            if (answerWordArray[i].equals(guessWordArray[i]))
             {
                 green[i] = true;
-                greenLetters.add(Character.toUpperCase(testWordArray[i]));
+                greenLetters.add(Character.toUpperCase(answerWordArray[i]));
                 gray[i] = false; //set to false, so the UI knows to display green, not grey
                 usedCharacters[i] = true; //this letter is now "used up"
             }
         }
 
-        //second pass: mark applicable characters from testWordArray as yellow
-        for (int i = 0; i < testWordArray.length; i++)
+        //second pass: mark applicable characters from answerWordArray as yellow
+        for (int i = 0; i < answerWordArray.length; i++)
         {
             if (!green[i]) //skip over green positions
             {
                 for (int j = 0; j < guessWordArray.length; j++)
                 {
-                    if (!usedCharacters[j] && testWordArray[i].equals(guessWordArray[j]))
+                    if (!usedCharacters[j] && answerWordArray[i].equals(guessWordArray[j]))
                     {
                         yellow[j] = true;
                         yellowLetters.add(Character.toUpperCase(guessWordArray[j]));
@@ -184,6 +175,10 @@ public class GameLogic
     - input validation:
         - is guessWord in the dictionary? (should only use letters a-z, no special characters or numbers)
         - is guessWord the correct # of characters (5)?
+        - make it such that there's a randomly selected answer word
+        - replay button (if there's time)
+        - make it such that you can click the letters on the UI keyboard (if we want to try hard for no reason)
+        - some sort of celebration when you win maybe
 
      */
 
