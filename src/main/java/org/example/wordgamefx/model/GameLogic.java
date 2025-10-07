@@ -81,6 +81,22 @@ public class GameLogic
 
         answerWordArray = getAnswerWordArray(answerWord);
     }
+
+    //sets a specific answer word -- ONLY FOR TESTING
+    public void setAnswerWord(String answerWord){
+        this.answerWord = answerWord.toLowerCase();
+        this.answerWordArray = getAnswerWordArray(this.answerWord);
+
+        //reset the feedback arrays
+        this.gray = new boolean[answerWord.length()];
+        this.yellow = new boolean[answerWord.length()];
+        this.green = new boolean[answerWord.length()];
+
+        this.grayLetters = new ArrayList<>();
+        this.yellowLetters = new ArrayList<>();
+        this.greenLetters = new ArrayList<>();
+    }
+
     //method to fill the answerWordArray with each character in answerWord
     public Character[] getAnswerWordArray(String answerWord) {
         Character[] answerWordArr = new Character[answerWord.length()];
@@ -156,7 +172,6 @@ public class GameLogic
                     if (!usedCharacters[j] && answerWordArray[i].equals(guessWordArray[j]))
                     {
                         yellow[j] = true;
-                        yellowLetters.add(Character.toUpperCase(guessWordArray[j]));
                         gray[j] = false; //set to false, so the UI knows to display yellow, not grey
                         usedCharacters[j] = true; //this letter is now "used up"
                         break;
