@@ -160,16 +160,17 @@ public class GameController
     }
 
     private void colorKeyboardRow(Label[] rowLetters, List<Character> grayLets, List<Character> yellowLets, List<Character> greenLets){
-        for(int i = 0; i < rowLetters.length; i++) {
-            char letter = rowLetters[i].getText().charAt(0);
+        for (Label label : rowLetters) {
+            char letter = Character.toUpperCase(label.getText().charAt(0));
+
             if (greenLets.contains(letter)) {
-                rowLetters[i].setStyle("-fx-background-color: #96CA2D; -fx-text-fill: white; -fx-border-color: #D9D9D9;");
+                label.setStyle("-fx-background-color: #96CA2D; -fx-text-fill: white; -fx-border-color: #D9D9D9;");
             }
             else if (yellowLets.contains(letter)) {
-                rowLetters[i].setStyle("-fx-background-color: #FFBE00; -fx-text-fill: white; -fx-border-color: #D9D9D9;");
+                label.setStyle("-fx-background-color: #FFBE00; -fx-text-fill: white; -fx-border-color: #D9D9D9;");
             }
             else if (grayLets.contains(letter)) {
-                rowLetters[i].setStyle("-fx-background-color: #424242; -fx-text-fill: white; -fx-border-color: #D9D9D9;");
+                label.setStyle("-fx-background-color: #424242; -fx-text-fill: white; -fx-border-color: #D9D9D9;");
             }
             }
         }

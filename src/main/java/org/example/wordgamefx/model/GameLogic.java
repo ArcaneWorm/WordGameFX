@@ -172,6 +172,7 @@ public class GameLogic
                     if (!usedCharacters[j] && answerWordArray[i].equals(guessWordArray[j]))
                     {
                         yellow[j] = true;
+                        yellowLetters.add(Character.toUpperCase(answerWordArray[i]));
                         gray[j] = false; //set to false, so the UI knows to display yellow, not grey
                         usedCharacters[j] = true; //this letter is now "used up"
                         break;
