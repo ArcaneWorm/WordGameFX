@@ -1,8 +1,8 @@
-/**
+/*
  * GameLogic.java
  *
  * Contains all the rules and the mechanics of the game:
- *      - Stores the hidden word (answer)
+ *      - Determines the answer word
  *      - Keeps track of valid dictionary words
  *      - Checks whether a guess is valid
  *      - Compares a guess against the answer and provides feedback
@@ -117,7 +117,7 @@ public class GameLogic
         return guessWordArr;
     }
 
-    /** Compare answerWordArray and guessWordArray to fill the arrays grey, yellow, and green appropriately
+    /* Compare answerWordArray and guessWordArray to fill the arrays grey, yellow, and green appropriately
      *
      *      - gray is true when a character in guessWordArray does not exist in answerWordArray
      *
@@ -131,7 +131,7 @@ public class GameLogic
      *          already been used to ensure the correct number of characters are marked yellow.
      *
      *      - green is true when a character in guessWordArray exists in answerWordArray, and is at the same index
-     * */
+     */
     public void guessAndAnswerComparison(String guessWord)
     {
         numGuesses++;

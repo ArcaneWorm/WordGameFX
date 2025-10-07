@@ -1,10 +1,10 @@
-/**
+/*
  * GameController.java
  *
  * Coordinates between user interaction and game logic:
- *      - Receives input from the user via the console or UI
+ *      - Receives input from the user via the UI
  *      - Passes guesses onto GameLogic.java for validation and evaluation
- *      - Gets results from GameLogic.java and displays those in the console or UI
+ *      - Gets results from GameLogic.java and displays those in theUI
  *
  */
 
