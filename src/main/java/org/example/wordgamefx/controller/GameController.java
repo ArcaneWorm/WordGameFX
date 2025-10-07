@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import org.example.wordgamefx.model.GameLogic;
 
 import java.io.BufferedReader;
@@ -37,6 +38,10 @@ public class GameController
     private TextField inputBox;
     @FXML
     private Button confirmBtn;
+
+    //text at the top
+    @FXML
+    private Text topText;
 
     //guesses
     @FXML
@@ -92,10 +97,12 @@ public class GameController
             dictionary = new HashSet<>();
         }
     }
+
     @FXML
     private void handleConfirmedInput(ActionEvent e)
     {
         String input = inputBox.getText().toLowerCase();
+        inputBox.clear();
 
         //before processing the user's guess, make sure it's in the dictionary
         if(!dictionary.contains(input))
@@ -106,16 +113,13 @@ public class GameController
             return;
         }
 
-        //add method to validate guess
-        //if invalid guess then have user re-enter guess
-        //otherwise increment counter and handle input
         Label[] letters = guessRows[guesses].getChildren().toArray(new Label[0]);
+
+        logic.guessAndAnswerComparison(input);
 
         boolean[] gray = logic.getGray();
         boolean[] yellow = logic.getYellow();
         boolean[] green = logic.getGreen();
-
-        logic.guessAndAnswerComparison(input);
 
         //update UI
         for(int i = 0; i < input.length(); i++){
@@ -132,6 +136,8 @@ public class GameController
             }
         }
         guesses++;
+        //check game state and decide if game is over
+        handleGameEnd();
 
         //update keyboard display()
         updateKeyboard();
@@ -167,4 +173,23 @@ public class GameController
             }
             }
         }
+
+    private void handleGameEnd(){
+        String condition = logic.checkGameState();
+        if(condition.equals("WIN")){
+            System.out.println("You win");
+            confirmBtn.setDisable(true);
+            topText.setText("Congratulations! You win!");
+
+        }
+        else if(condition.equals("LOSE")) {
+            System.out.println("You lose");
+            confirmBtn.setDisable(true);
+            String answer = logic.getAnswerWord();
+            topText.setText("You lose! The word was: "+answer);
+        }
+        else
+            return;
     }
+
+}

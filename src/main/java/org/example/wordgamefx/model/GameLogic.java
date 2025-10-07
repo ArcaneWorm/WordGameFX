@@ -51,6 +51,9 @@ public class GameLogic
     private boolean[] green;
     private List<Character> greenLetters;
 
+    //keep track of guesses, 6 guesses = lose
+    private int numGuesses;
+
     public GameLogic(){
         /*
         If you add a word to this list, verify that your word is included in the dictionary validation text file
@@ -59,7 +62,8 @@ public class GameLogic
         */
         answerWords = new ArrayList<>(Arrays.asList("candy", "witch", "ghoul", "mummy", "demon", "spook",
                 "ghost", "eerie", "haunt", "crypt", "scare", "scary", "bones", "skull", "fangs", "blood",
-                "treat", "trick", "grave"));
+                "treat", "trick", "grave", "carve", "broom", "devil", "beast", "coven", "curse", "night",
+                "masks", "slime"));
         random = new Random();
         answerWord = answerWords.get(random.nextInt(answerWords.size()));
         this.answerWordArray = new Character[answerWord.length()];
@@ -73,10 +77,9 @@ public class GameLogic
         this.yellowLetters = new ArrayList<Character>();
         this.greenLetters = new ArrayList<Character>();
 
+        this.numGuesses = 0;
+
         answerWordArray = getAnswerWordArray(answerWord);
-
-
-
     }
     //method to fill the answerWordArray with each character in answerWord
     public Character[] getAnswerWordArray(String answerWord) {
@@ -115,6 +118,8 @@ public class GameLogic
      * */
     public void guessAndAnswerComparison(String guessWord)
     {
+        numGuesses++;
+
         guessWord = guessWord.toLowerCase();
         guessWordArray = getGuessWordArray(guessWord);
 
@@ -173,19 +178,28 @@ public class GameLogic
     public List<Character> getYellowLetters() { return yellowLetters; }
     public List<Character> getGreenLetters() { return greenLetters; }
 
+    //answer getter
+    public String getAnswerWord() {return answerWord;}
 
-    /*
-    CODE NEXT:
-    - logic for winning/loosing -- use an int guessCounter
-    - input validation:
-        - if you don't win, tells you what the word was
-        - is guessWord the correct # of characters (5)?
-        - replay button (if there's time)
-        - make it such that you can click the letters on the UI keyboard (if we want to try hard for no reason)
-        - some sort of celebration when you win maybe
-
-     */
-
+    //method to check what the state of the game is
+    public String checkGameState() {
+        boolean allGreen = true;
+        for (boolean g : green) {
+            if (!g) {
+                allGreen = false;
+                break;
+            }
+        }
+        if (allGreen){
+            return "WIN";
+        }
+        else if (numGuesses >= 6) {
+            return "LOSE";
+        }
+        else {
+            return "ONGOING";
+        }
+    }
 
 
 }
