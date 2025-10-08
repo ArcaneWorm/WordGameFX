@@ -1,5 +1,6 @@
 # HalloWordle
-A Halloween-Themed word guessing game that mimics the popular NY Times Wordle game. Guess the five-letter, secret Halloween-themed word with 6 guesses!
+A Halloween-Themed word guessing game that mimics the popular NY Times Wordle game. Guess the five-letter, secret Halloween-themed word with 6 guesses! 
+Check out a demo video: https://drive.google.com/file/d/1JLvQDz5y4wj8NJV1LNkEdJHz0RWkMq6O/view?usp=sharing 
 
 ## Team Members
 - Clarence Ballensky
