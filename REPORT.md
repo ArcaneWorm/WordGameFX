@@ -7,7 +7,7 @@
 * GameLogic.java contains all of the rules and mechanics of the game.
 * GameApplication.java launches the UI.
 * GameController.java coordinates between the UI and GameLogic.java.
-- Why did you choose Swing vs JavaFX?
+* JavaFX was chosen for the UI because of the SceneBuilder tool that allows for easier creation of complex UI (which is ideal for a game with lots of letter labels).
 
 ### Data Structures
 We represented the game state as the three strings: “WIN”, “LOSE”, and “ONGOING”, keeping our code readable and concise.
